@@ -5,7 +5,8 @@ from django.template.loader import get_template
 
 def home_page(request):
 	title = "Hello there.."
-	return render(request, "helloworld.html", {"title" : title})
+	context = {"title" : title}
+	return render(request, "home.html", context)
 
 def about_page(request):
 	title = "About us."
