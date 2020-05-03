@@ -1,7 +1,7 @@
 from django.contrib.auth.decorators import login_required
 from django.contrib.admin.views.decorators import staff_member_required
 from django.http import Http404
-from django.shortcuts import render, get_object_or_404
+from django.shortcuts import render, get_object_or_404, redirect
 
 # Create your views here.
 from .models import BlogPost
@@ -13,8 +13,8 @@ def blog_post_list_view(request):
 	# list of objects
 	# could be search
 	#queryset = BlogPost.objects.all()
-	queryset 		= BlogPost.objects.filter(title__icontains='hello')
-	template_name	= 'blog_post_list.html'
+	queryset 		= BlogPost.objects.all()
+	template_name	= 'blog/list.html'
 	context		 	= {'object_list' : queryset}
 	return render(request, template_name, context)
 
@@ -56,5 +56,8 @@ def blog_post_update_view(request, slug):
 def blog_post_delete_view(request, slug):
 	obj 			= get_object_or_404(BlogPost, slug=slug)
 	template_name 	= "blog/delete.html"
+	if request.method == "POST":
+		obj.delete()
+		return redirect("/blog")
 	context 		= {"object" : obj}
 	return render(request, template_name, context)
