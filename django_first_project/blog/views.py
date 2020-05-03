@@ -12,8 +12,7 @@ from .forms import BlogPostModelForm
 def blog_post_list_view(request):
 	# list of objects
 	# could be search
-	#queryset = BlogPost.objects.all()
-	queryset 		= BlogPost.objects.all()
+	queryset 		= BlogPost.objects.published()
 	template_name	= 'blog/list.html'
 	context		 	= {'object_list' : queryset}
 	return render(request, template_name, context)

@@ -6,15 +6,21 @@ from django.template.loader import get_template
 from .forms import ContactForm
 from blog.models import BlogPost
 
+
+
 def home_page(request):
 	title 	= "Welcome to Try Django!"
-	queryset = BlogPost.objects.all()[:5]
+	queryset = BlogPost.objects.published()[:5]
 	context = {"title" : title, "blog_list" : queryset}
 	return render(request, "home.html", context)
+
+
 
 def about_page(request):
 	title 	= "About us."
 	return render(request, "helloworld.html", {"title" : title})
+
+
 
 def contact_page(request):
 	title 	= "Contact us."
@@ -27,6 +33,7 @@ def contact_page(request):
 		"form" 	: form
 	}
 	return render(request, "form.html", context)
+
 
 
 def example_page(request):
