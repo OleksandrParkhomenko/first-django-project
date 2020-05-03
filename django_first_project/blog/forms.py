@@ -11,9 +11,10 @@ class BlogPostForm(forms.Form):
 
 
 class BlogPostModelForm(forms.ModelForm):
+	
 	class Meta:
 		model 	= BlogPost
-		fields	= ['title', 'slug', 'content']
+		fields	= ['title', 'slug', 'image', 'content', 'publish_date']
 
 
 	def clean_title(self, *args, **kwargs):

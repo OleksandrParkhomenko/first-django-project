@@ -10,9 +10,10 @@ from .forms import BlogPostModelForm
 
 
 def blog_post_list_view(request):
-	# list of objects
-	# could be search
-	queryset 		= BlogPost.objects.published()
+	queryset 		= BlogPost.objects.all().published()
+	if request.user.is_authenticated:
+		my_quesyset = BlogPost.objects.filter(user=request.user)
+		queryset = (queryset | my_quesyset).distinct()
 	template_name	= 'blog/list.html'
 	context		 	= {'object_list' : queryset}
 	return render(request, template_name, context)
@@ -21,14 +22,14 @@ def blog_post_list_view(request):
 #@login_required
 @staff_member_required
 def blog_post_create_view(request):
-	form = BlogPostModelForm(request.POST or None)
+	form = BlogPostModelForm(request.POST or None, request.FILES or None)
 	if form.is_valid():
 		obj 		= form.save(commit=False)
 		obj.user	= request.user
 		obj.save()
 		form		= BlogPostModelForm()
-	if request.method == "POST":
-		return redirect(obj.get_absolute_url())
+		if request.method == "POST":
+			return redirect(obj.get_absolute_url())
 	template_name	= 'blog/form.html'
 	context			= {'form' : form}
 	return render(request, template_name, context)

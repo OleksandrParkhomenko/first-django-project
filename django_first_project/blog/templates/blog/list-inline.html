@@ -1,8 +1,37 @@
-<div class="col-12 col-md-8 mb-3 mx-auto">
-	<div class="card">
-		<div class="card-body">
-			<h5 class="card-title"><a href='{{ blog_post.get_absolute_url }}'> {{ blog_post.title }} </a></h5>
-			<p class="card-text">{{ blog_post.content|linebreaks|truncatewords:30}}</p>			
+<div class="col-12 col-md-10 my-2 mx-auto">
+	<div class="card {% if not blog_post.publish_date %} border-warning {% endif %}">
+		<div class="row no-gutters">
+			<div class="col-md-4">
+				{% if blog_post.image  %}
+					<a href='{{ blog_post.get_absolute_url }}'>
+						<img src="{{ blog_post.image.url }}" class="card-img"/>
+					</a>
+				{% endif %}
+			</div>
+			<div class="col-md-8">
+				<div class="card-body">
+					
+					<h5 class="card-title"> {{ blog_post.title }} </h5>
+						{% if blog_post.publish_date %}
+							<small class="text-mited">{{ blog_post.publish_date }}</small>
+						{% else %}
+							Draft
+						{% endif%}
+					<p class="card-text">
+						{{ blog_post.content|linebreaks|truncatewords:30}}
+					</p>	
+					{% if not detail %}		
+						<a href='{{ blog_post.get_absolute_url }}'>View</a>
+					{% else %}
+						{% if request.user.is_authenticated %}
+							{% if request.user.is_staff %}
+								<a href='{{ object.get_edit_url }}'>Edit</a>
+								<a href='{{ object.get_delete_url }}'>Delete</a>
+							{% endif %}
+						{% endif %}
+					{% endif %}
+				</div>
+			</div>
 		</div>
 	</div>
 </div>

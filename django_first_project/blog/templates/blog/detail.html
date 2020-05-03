@@ -2,16 +2,12 @@
 
 {% block content %}
 
-<div class="col-12 col-md-8 mb-3 mx-auto">
-	<h1> {{ object.title }} </h1>
-	<p> {{ object.content }} </p>
+<div class="col">
+	
+	{% include 'blog/list-inline.html' with blog_post=object detail=True %}
 
-	{% if request.user.is_authenticated %}
-		{% if request.user.is_staff %}
-			<a href='{{ object.get_edit_url }}'>Edit</a>
-			<a href='{{ object.get_delete_url }}'>Delete</a>
-		{% endif %}
-	{% endif %}
 </div>
 
 {% endblock %}
+
+
