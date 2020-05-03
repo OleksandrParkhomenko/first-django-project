@@ -4,10 +4,12 @@ from django.template.loader import get_template
 
 
 from .forms import ContactForm
+from blog.models import BlogPost
 
 def home_page(request):
-	title 	= "Hello there.."
-	context = {"title" : title}
+	title 	= "Welcome to Try Django!"
+	queryset = BlogPost.objects.all()[:5]
+	context = {"title" : title, "blog_list" : queryset}
 	return render(request, "home.html", context)
 
 def about_page(request):
