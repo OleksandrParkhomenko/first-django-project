@@ -20,7 +20,7 @@ class BlogPostQuerySet(models.QuerySet):
 		lookup = (
 			Q(title__icontains=query) |
 			Q(content__icontains=query) |
-			Q(slug__icontains=query) |
+			Q(slug__icontains=query)
 		)
 		return self.filter(lookup)
 
