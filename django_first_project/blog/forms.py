@@ -17,8 +17,11 @@ class BlogPostModelForm(forms.ModelForm):
 
 
 	def clean_title(self, *args, **kwargs):
-		title = self.cleaned_data.get('title')
-		queryset = BlogPost.objects.filter(title__iexact=title)
+		instance 	= self.instance
+		title 		= self.cleaned_data.get('title')
+		queryset	= BlogPost.objects.filter(title__iexact=title)
+		if instance is not None:
+			queryset = queryset.exclude(pk=instance.pk)
 		if queryset.exists():
 			raise forms.ValidationError("This title has been already used. Please try again.")
 		return title
